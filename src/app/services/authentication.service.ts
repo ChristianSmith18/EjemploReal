@@ -6,7 +6,6 @@ import { Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthenticationService {
-  subject$ = new Subject();
   constructor(private auth: AngularFireAuth) {}
 
   isAuth() {

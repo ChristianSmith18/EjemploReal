@@ -1,33 +1,28 @@
 import { Component } from '@angular/core';
-import Swal, { SweetAlertOptions } from 'sweetalert2';
+import Swal from 'sweetalert2';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+import { Persona, RootPersona } from '../../../intefaces/persona.interface';
+import { DatabaseService } from '../../../services/database.service';
+import { MatTableDataSource } from '@angular/material/table';
 
-export interface Persona {
-  id: number;
-  nombre: string;
-  apellidos: string;
-  idSexo: number;
-  edad: number;
-}
-
-const ELEMENT_DATA: Persona[] = [
-  { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
-  { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 4, edad: 21 },
-  { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
-  { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
-  { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
-  { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
-  { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
-  { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
-  { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
-  { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
-  { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
-  { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
-  { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
-  { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
-];
+// const ELEMENT_DATA: Persona[] = [
+//   { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
+//   { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 4, edad: 21 },
+//   { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
+//   { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
+//   { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
+//   { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
+//   { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
+//   { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
+//   { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
+//   { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
+//   { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
+//   { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
+//   { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
+//   { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
+// ];
 
 @Component({
   selector: 'app-panel',
@@ -35,14 +30,6 @@ const ELEMENT_DATA: Persona[] = [
   styleUrls: ['./panel.component.scss'],
 })
 export class PanelComponent {
-  constructor(
-    private auth: AuthenticationService,
-    private router: Router,
-    private title: Title
-  ) {
-    this.title.setTitle('Personas');
-  }
-
   displayedColumns: string[] = [
     'id',
     'nombre',
@@ -51,7 +38,21 @@ export class PanelComponent {
     'edad',
     'buttons',
   ];
-  dataSource = ELEMENT_DATA;
+
+  dataSource: Persona[] = [];
+
+  constructor(
+    private auth: AuthenticationService,
+    private router: Router,
+    private title: Title,
+    private firestore: DatabaseService
+  ) {
+    this.title.setTitle('Personas');
+    this.firestore.obtenerPersonas().subscribe((personas: RootPersona) => {
+      this.dataSource = personas.personas;
+      console.log(this.dataSource);
+    });
+  }
 
   async agregarPersona() {
     const { value: formValues } = await Swal.fire({
@@ -77,11 +78,20 @@ export class PanelComponent {
     });
 
     if (formValues) {
-      Swal.fire(JSON.stringify(formValues));
+      this.firestore
+        .agregarPersona({
+          id: parseInt(formValues[0]),
+          nombre: formValues[1],
+          apellidos: formValues[2],
+          idSexo: parseInt(formValues[3]),
+          edad: parseInt(formValues[4]),
+        })
+        .then(() => this.mixinTemplate('Agregado correctamente!', true))
+        .catch((err) => this.mixinTemplate(err, false));
     }
   }
 
-  async editarPersona(persona: Persona) {
+  async editarPersona(persona: Persona, indice: number) {
     const { value: formValues } = await Swal.fire({
       title: 'Editar Persona',
       html: `
@@ -105,7 +115,19 @@ export class PanelComponent {
     });
 
     if (formValues) {
-      Swal.fire(JSON.stringify(formValues));
+      this.firestore
+        .editarPersona(
+          {
+            id: parseInt(formValues[0]),
+            nombre: formValues[1],
+            apellidos: formValues[2],
+            idSexo: parseInt(formValues[3]),
+            edad: parseInt(formValues[4]),
+          },
+          indice
+        )
+        .then(() => this.mixinTemplate('Editado correctamente!', true))
+        .catch((err) => this.mixinTemplate(err, false));
     }
   }
 
@@ -120,7 +142,10 @@ export class PanelComponent {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.value) {
-        this.mixinTemplate('Eliminado correctamente!', true);
+        this.firestore
+          .eliminarPersona(indice)
+          .then(() => this.mixinTemplate('Eliminado correctamente!', true))
+          .catch((err) => this.mixinTemplate(err, false));
       }
     });
   }
