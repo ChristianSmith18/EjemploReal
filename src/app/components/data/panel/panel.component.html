@@ -41,7 +41,8 @@
       <!-- IdSexo Column -->
       <ng-container matColumnDef="idSexo">
         <th class="uk-text-center" mat-header-cell *matHeaderCellDef> IdSexo </th>
-        <td mat-cell *matCellDef="let item"> {{item.idSexo===1?'Masculino':'Femenino'}} </td>
+        <!-- <td mat-cell *matCellDef="let item"> {{item.idSexo===1?'Masculino':'Femenino'}} </td> -->
+        <td mat-cell *matCellDef="let item"> {{item.idSexo | formatoSexo}} </td>
       </ng-container>
 
       <!-- Edad Column -->

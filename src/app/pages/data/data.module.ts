@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { DataRoutingModule } from './data-routing.module';
 import { DataComponent } from './data.component';
 import { PanelComponent } from '../../components/data/panel/panel.component';
+import { FormatoSexoPipe } from '../../pipes/formato-sexo.pipe';
 
 // MD
 import { MatTableModule } from '@angular/material/table';
@@ -11,7 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
-  declarations: [DataComponent, PanelComponent],
+  declarations: [DataComponent, PanelComponent, FormatoSexoPipe],
   imports: [
     CommonModule,
     DataRoutingModule,

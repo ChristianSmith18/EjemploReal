@@ -80,11 +80,11 @@ export class PanelComponent {
     if (formValues) {
       this.firestore
         .agregarPersona({
-          id: parseInt(formValues[0]),
+          id: Number(formValues[0]),
           nombre: formValues[1],
           apellidos: formValues[2],
-          idSexo: parseInt(formValues[3]),
-          edad: parseInt(formValues[4]),
+          idSexo: Number(formValues[3]),
+          edad: Number(formValues[4]),
         })
         .then(() => this.mixinTemplate('Agregado correctamente!', true))
         .catch((err) => this.mixinTemplate(err, false));
@@ -118,11 +118,11 @@ export class PanelComponent {
       this.firestore
         .editarPersona(
           {
-            id: parseInt(formValues[0]),
+            id: Number(formValues[0]),
             nombre: formValues[1],
             apellidos: formValues[2],
-            idSexo: parseInt(formValues[3]),
-            edad: parseInt(formValues[4]),
+            idSexo: Number(formValues[3]),
+            edad: Number(formValues[4]),
           },
           indice
         )
