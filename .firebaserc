@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "familia-covid": {
+      "hosting": {
+        "ngx": [
+          "familia-covid"
+        ]
+      }
+    }
+  }
+}

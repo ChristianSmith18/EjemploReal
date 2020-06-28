@@ -1,0 +1,47 @@
+.bg-loading {
+  min-height: 100vh;
+  display: flex;
+  background-color: #111;
+  overflow: hidden;
+}
+
+.icon-burn {
+  margin: auto;
+  cursor: pointer;
+  color: transparent;
+  font-size: 3rem;
+  transform: rotate(-180deg);
+}
+
+.icon-burn:nth-child(1) {
+  animation: boom1 1s infinite alternate;
+}
+
+.icon-burn:nth-child(2) {
+  animation: boom2 1s infinite alternate;
+}
+
+.icon-burn:nth-child(3) {
+  animation: boom3 1s infinite alternate;
+}
+
+@keyframes boom1 {
+  to {
+    text-shadow: 242.14579px 62.17247px red, 219.07667px 120.43842px red, 182.24216px 171.13678px red, 133.9567px 211.08198px red, 77.25425px 237.76413px red, 15.69763px 249.50668px red, -46.84533px 245.57181px red, -106.44482px 226.20676px red, -159.356px 192.62831px red, -202.25425px 146.94631px red, -232.44412px 92.03114px red, -248.02868px 31.33331px red, -248.02868px -31.33331px red, -232.44412px -92.03114px red, -202.25425px -146.94631px red, -159.35599px -192.62831px red, -106.44481px -226.20676px red, -46.84527px -245.5718px red, 15.69781px -249.50664px red, 77.25482px -237.764px red, 133.95836px -211.0816px red, 182.24675px -171.13567px red, 219.08882px -120.43535px red, 242.17663px -62.16434px red, 250.07531px 0.02069px red;
+    transform: rotate(180deg);
+  }
+}
+
+@keyframes boom2 {
+  to {
+    text-shadow: 242.14579px 62.17247px blue, 219.07667px 120.43842px blue, 182.24216px 171.13678px blue, 133.9567px 211.08198px blue, 77.25425px 237.76413px blue, 15.69763px 249.50668px blue, -46.84533px 245.57181px blue, -106.44482px 226.20676px blue, -159.356px 192.62831px blue, -202.25425px 146.94631px blue, -232.44412px 92.03114px blue, -248.02868px 31.33331px blue, -248.02868px -31.33331px blue, -232.44412px -92.03114px blue, -202.25425px -146.94631px blue, -159.35599px -192.62831px blue, -106.44481px -226.20676px blue, -46.84527px -245.5718px blue, 15.69781px -249.50664px blue, 77.25482px -237.764px blue, 133.95836px -211.0816px blue, 182.24675px -171.13567px blue, 219.08882px -120.43535px blue, 242.17663px -62.16434px blue, 250.07531px 0.02069px blue;
+    transform: rotate(180deg);
+  }
+}
+
+@keyframes boom3 {
+  to {
+    text-shadow: 242.14579px 62.17247px green, 219.07667px 120.43842px green, 182.24216px 171.13678px green, 133.9567px 211.08198px green, 77.25425px 237.76413px green, 15.69763px 249.50668px green, -46.84533px 245.57181px green, -106.44482px 226.20676px green, -159.356px 192.62831px green, -202.25425px 146.94631px green, -232.44412px 92.03114px green, -248.02868px 31.33331px green, -248.02868px -31.33331px green, -232.44412px -92.03114px green, -202.25425px -146.94631px green, -159.35599px -192.62831px green, -106.44481px -226.20676px green, -46.84527px -245.5718px green, 15.69781px -249.50664px green, 77.25482px -237.764px green, 133.95836px -211.0816px green, 182.24675px -171.13567px green, 219.08882px -120.43535px green, 242.17663px -62.16434px green, 250.07531px 0.02069px green;
+    transform: rotate(180deg);
+  }
+}
