@@ -5,24 +5,6 @@ import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { Persona, RootPersona } from '../../../intefaces/persona.interface';
 import { DatabaseService } from '../../../services/database.service';
-import { MatTableDataSource } from '@angular/material/table';
-
-// const ELEMENT_DATA: Persona[] = [
-//   { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
-//   { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 4, edad: 21 },
-//   { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
-//   { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
-//   { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
-//   { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
-//   { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
-//   { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
-//   { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
-//   { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
-//   { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
-//   { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
-//   { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
-//   { id: 1, nombre: 'Cristian', apellidos: 'González', idSexo: 1, edad: 21 },
-// ];
 
 @Component({
   selector: 'app-panel',
@@ -65,7 +47,9 @@ export class PanelComponent {
         <input id="swal-input5" class="swal2-input" placeholder="Ingrese la edad.." style="color:#666">
       `,
       focusConfirm: false,
+      showCancelButton: true,
       confirmButtonText: 'Agregar',
+      cancelButtonText: 'Cancelar',
       preConfirm: () => {
         return [
           (document.getElementById('swal-input1') as HTMLInputElement).value,
@@ -102,7 +86,9 @@ export class PanelComponent {
         <input id="swal-input5" class="swal2-input" value="${persona.edad}">
       `,
       focusConfirm: false,
+      showCancelButton: true,
       confirmButtonText: 'Editar',
+      cancelButtonText: 'Cancelar',
       preConfirm: () => {
         return [
           (document.getElementById('swal-input1') as HTMLInputElement).value,
@@ -151,8 +137,27 @@ export class PanelComponent {
   }
 
   signOut() {
-    this.router.navigate(['login']);
-    this.auth.signOut();
+    Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+    })
+      .fire({
+        title: '¿Seguro/a que deseas salir?',
+        showCancelButton: true,
+        showConfirmButton: true,
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Si',
+        cancelButtonText: 'No',
+      })
+      .then((result) => {
+        if (result.value) {
+          this.router.navigate(['login']);
+          this.auth.signOut();
+        }
+      });
   }
 
   mixinTemplate(msg: string, success: boolean) {

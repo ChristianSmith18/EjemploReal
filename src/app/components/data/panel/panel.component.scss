@@ -16,6 +16,13 @@
     font-weight: 500;
   }
 
+  p.not-people {
+    color: white;
+    font-weight: 500;
+    font-size: 2rem;
+    margin-top: 90px;
+  }
+
   .table-container {
     margin: 20px 0;
     width: 100%;
@@ -26,6 +33,7 @@
     table {
       min-width: 800px;
       width: 80%;
+
       td:last-child {
         width: 100px;
       }

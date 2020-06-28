@@ -13,7 +13,7 @@
 
   <button class="uk-button uk-button-primary uk-border-rounded" (click)="agregarPersona()">Agregar Persona</button>
 
-
+  <p *ngIf="dataSource.length <= 0" class="not-people">No hay personas en la base de datos.</p>
   <div *ngIf="dataSource.length > 0" class="table-container">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
@@ -37,7 +37,7 @@
 
       <!-- IdSexo Column -->
       <ng-container matColumnDef="idSexo">
-        <th class="uk-text-center" mat-header-cell *matHeaderCellDef> IdSexo </th>
+        <th class="uk-text-center" mat-header-cell *matHeaderCellDef> Sexo </th>
         <!-- <td mat-cell *matCellDef="let item"> {{item.idSexo===1?'Masculino':'Femenino'}} </td> -->
         <td mat-cell *matCellDef="let item"> {{item.idSexo | formatoSexo}} </td>
       </ng-container>
