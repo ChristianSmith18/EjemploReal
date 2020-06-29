@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Persona, RootPersona } from '../intefaces/persona.interface';
+import { Persona, RootPersona } from '../models/persona.model';
 import { Subject } from 'rxjs';
 
 @Injectable({

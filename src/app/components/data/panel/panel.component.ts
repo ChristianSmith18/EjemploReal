@@ -3,8 +3,10 @@ import Swal from 'sweetalert2';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { Persona, RootPersona } from '../../../intefaces/persona.interface';
+import { Persona, RootPersona } from '../../../models/persona.model';
 import { DatabaseService } from '../../../services/database.service';
+import { MatTableDataSource } from '@angular/material/table';
+declare var copyer: any;
 
 @Component({
   selector: 'app-panel',
@@ -21,7 +23,8 @@ export class PanelComponent {
     'buttons',
   ];
 
-  dataSource: Persona[] = [];
+  dataSource = new MatTableDataSource<Persona>();
+  copyText = '';
 
   constructor(
     private auth: AuthenticationService,
@@ -31,9 +34,13 @@ export class PanelComponent {
   ) {
     this.title.setTitle('Personas');
     this.firestore.obtenerPersonas().subscribe((personas: RootPersona) => {
-      this.dataSource = personas.personas;
-      console.log(this.dataSource);
+      this.dataSource.data = personas.personas;
     });
+  }
+
+  buscar(event: { target: HTMLInputElement }) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   async agregarPersona() {
@@ -177,5 +184,37 @@ export class PanelComponent {
       icon: success ? 'success' : 'error',
       title: msg,
     });
+  }
+
+  buscarPorID(id: number): number {
+    let indice = 0;
+    for (const persona of this.dataSource.data) {
+      if (persona.id === id) {
+        return indice;
+      }
+      indice++;
+    }
+    return indice;
+  }
+
+  copiarEnPortapapeles(id: number) {
+    this.copyText = `
+    ID: ${this.dataSource.data[this.buscarPorID(id)].id} ~
+    Nombre: ${this.dataSource.data[this.buscarPorID(id)].nombre} ~
+    Apellidos: ${this.dataSource.data[this.buscarPorID(id)].apellidos} ~
+    Sexo: ${
+      this.dataSource.data[this.buscarPorID(id)].idSexo === 1
+        ? 'Masculino'
+        : 'Femenino'
+    } ~
+    Edad: ${this.dataSource.data[this.buscarPorID(id)].edad}
+    `;
+    setTimeout(() => {
+      copyer('copyer');
+      const input = document.getElementById('mat-input-0') as HTMLInputElement;
+      input.focus();
+      input.blur();
+      this.mixinTemplate('Copiado en el portapeles', true);
+    }, 300);
   }
 }
