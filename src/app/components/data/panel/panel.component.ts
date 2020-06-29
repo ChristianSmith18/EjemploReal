@@ -25,6 +25,7 @@ export class PanelComponent {
 
   dataSource = new MatTableDataSource<Persona>();
   copyText = '';
+  loadingData = true;
 
   constructor(
     private auth: AuthenticationService,
@@ -34,6 +35,7 @@ export class PanelComponent {
   ) {
     this.title.setTitle('Personas');
     this.firestore.obtenerPersonas().subscribe((personas: RootPersona) => {
+      this.loadingData = false;
       this.dataSource.data = personas.personas;
     });
   }

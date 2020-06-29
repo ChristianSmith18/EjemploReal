@@ -7,8 +7,8 @@ import { PanelComponent } from '../../components/data/panel/panel.component';
 import { FormatoSexoPipe } from '../../pipes/formato-sexo.pipe';
 
 // MD
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
-import { MatSortModule } from '@angular/material/sort';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
@@ -20,8 +20,8 @@ import { MatInputModule } from '@angular/material/input';
   imports: [
     CommonModule,
     DataRoutingModule,
+    MatProgressSpinnerModule,
     MatTableModule,
-    MatSortModule,
     MatButtonModule,
     MatIconModule,
     MatCardModule,
